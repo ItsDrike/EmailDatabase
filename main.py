@@ -6,7 +6,7 @@ import sqlite3
 import database_io as dtbase
 
 # Path to user database
-DATABASE = 'datbase.db'
+DATABASE = 'database.db'
 # Path to logging file
 LOG_FILE = 'logfile.log'
 
@@ -26,3 +26,12 @@ dtbase.create_database_table("""CREATE TABLE emails (
                 email TEXT,
                 password TEXT
             )""")
+
+def add_mail_to_database(name, email, password):
+    dtbase.add_to_database('emails', name, email, password, DATABASE)
+def get_mails():
+    data = dtbase.get_database_table('emails', DATABASE)
+    print(data)
+
+add_mail_to_database('test', 'testing-mail', 'testing-pass')
+get_mails()
