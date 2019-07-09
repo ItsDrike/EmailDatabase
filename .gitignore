@@ -117,6 +117,7 @@ sql/
 ClientBin/
 # Project-specific
 logfile.log
+database.db
 
 [Ss]tyle[Cc]op.*
 ~$*
