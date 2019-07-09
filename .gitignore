@@ -115,6 +115,9 @@ AppPackages/
 sql/
 *.Cache
 ClientBin/
+# Project-specific
+logfile.log
+
 [Ss]tyle[Cc]op.*
 ~$*
 *~
