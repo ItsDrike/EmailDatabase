@@ -32,3 +32,5 @@ def add_mail_to_database(name, email, password):
 def get_mails():
     data = dtbase.get_database_table('emails', DATABASE)
     print(data)
+get_mails()
+print(dtbase.get_database_data('emails', 'name', 'test', DATABASE))
