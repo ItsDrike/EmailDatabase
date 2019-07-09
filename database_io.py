@@ -78,37 +78,32 @@ def get_database_data(tableName, key, content, DATABASE=PRIMARY_DATABASE):
         f'Retrieving from database "{DATABASE}" with "{tableName}" as table name, under key "{key}" with content of "{content}"')
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
-    c.execute("SELECT * FROM :tableName WHERE :key=:content",
+    c.execute(f"SELECT * FROM {tableName} WHERE :key=:content",
               {'tableName': tableName, 'key': key, 'content': content})
     fetch = c.fetchone()
     conn.commit()
     conn.close()
+    logger.debug(
+        f'Retrieved data from database "{DATABASE}" with "{tableName}" as table name, under key "{key}" with content of "{content}": {fetch}')
     return fetch
 
 
-def add_to_database(tableName, values, DATABASE=PRIMARY_DATABASE):
+def add_to_database(tableName, name, email, password, DATABASE=PRIMARY_DATABASE):
     """Add new entry in specified table into database"""
     logger.debug(
-        'Adding to database "{DATABASE}" to table "{tableName}" values: "{values}"')
+        f'Adding to database "{DATABASE}" to table "{tableName}"; name: "{name}", email: "{email}", password: "{password}"')
     try:
         conn = sqlite3.connect(DATABASE)
         c = conn.cursor()
-        if type(values) is str:
-            c.execute("INSERT INTO :tableName VALUES(:values)", {
-                      'tableName': tableName, 'values': values})
-        elif type(values) is list or type(values) is tuple:
-            str_values = ''
-            for item in values:
-                str_values += f' {item}'
-            c.execute("INSERT INTO :tableName VALUES(:values)", {
-                      'tableName': tableName, 'values': str_values[1:]})
+        c.execute(f"INSERT INTO {tableName} VALUES(:name, :email, :password)", {
+                    'name': name, 'email': email, 'password': password})
         conn.commit()
         conn.close()
         logger.debug('Added successfully')
         return True
     except Exception as e:
         logger.error(
-            f'unable to add: database "{DATABASE}" to table "{tableName}" values: "{values}"; Returned exception {e}.')
+            f'unable to add: database "{DATABASE}" to table "{tableName}"; name: "{name}", email: "{email}", password: "{password}"; Returned exception {e}.')
         return False
 
 
