@@ -1,8 +1,9 @@
 # TODO create a GUI (Tkinter) that will have a master password and after unlocking, it will store all of yours E-Mail addresses & passwords
-import logging
-from pathlib import Path
 import hashlib
+import logging
 import sqlite3
+from pathlib import Path
+
 import database_io as dtbase
 
 # Path to user database
@@ -27,10 +28,15 @@ dtbase.create_database_table("""CREATE TABLE emails (
                 password TEXT
             )""")
 
+
 def add_mail_to_database(name, email, password):
     dtbase.add_to_database('emails', name, email, password, DATABASE)
+
+
 def get_mails():
     data = dtbase.get_database_table('emails', DATABASE)
     print(data)
+
+
 get_mails()
 print(dtbase.get_database_data('emails', 'name', 'test', DATABASE))
